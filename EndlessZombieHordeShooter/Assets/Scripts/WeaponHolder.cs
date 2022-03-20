@@ -5,13 +5,12 @@ using UnityEngine.InputSystem;
 
 public class WeaponHolder : MonoBehaviour
 {
-
     [Header("WeaponToSpawn"), SerializeField]
     GameObject weaponToSpawn;
 
     public PlayerController playerController;
-    Animator animator;
-    Sprite crosshairImage;
+    Animator playerAnimator;
+    public Sprite crossHairImage;
     WeaponComponent equippedWeapon;
 
     [SerializeField]
@@ -19,42 +18,42 @@ public class WeaponHolder : MonoBehaviour
     [SerializeField]
     Transform gripIKSocketLocation;
 
-    bool wasFiring = false;
     bool firingPressed = false;
 
     public readonly int isFiringHash = Animator.StringToHash("isFiring");
     public readonly int isReloadingHash = Animator.StringToHash("isReloading");
-
     // Start is called before the first frame update
     void Start()
     {
         playerController = GetComponent<PlayerController>();
-        animator = GetComponent<Animator>();
+        playerAnimator = GetComponent<Animator>();
         GameObject spawnedWeapon = Instantiate(weaponToSpawn, weaponSocketLocation.transform.position, weaponSocketLocation.transform.rotation, weaponSocketLocation.transform);
 
         equippedWeapon = spawnedWeapon.GetComponent<WeaponComponent>();
         equippedWeapon.Initialize(this);
         PlayerEvents.InvokeOnWeaponEquipped(equippedWeapon);
-
         gripIKSocketLocation = equippedWeapon.gripLocation;
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnAnimatorIK(int layerIndex)
     {
-        animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
-        animator.SetIKPosition(AvatarIKGoal.LeftHand, gripIKSocketLocation.transform.position);
+        if (!playerController.isReloading)
+        {
+            playerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+            playerAnimator.SetIKPosition(AvatarIKGoal.LeftHand, gripIKSocketLocation.transform.position);
+
+        }
+
     }
     public void OnFire(InputValue value)
     {
         firingPressed = value.isPressed;
-
         if (firingPressed)
         {
             StartFiring();
@@ -65,56 +64,65 @@ public class WeaponHolder : MonoBehaviour
         }
     }
 
-    public void StartFiring()
+    void StartFiring()
     {
+
         if (equippedWeapon.weaponStats.bulletsInClip <= 0)
         {
             StartReloading();
             return;
         }
-        animator.SetBool(isFiringHash, true);
+
+        playerAnimator.SetBool(isFiringHash, true);
         playerController.isFiring = true;
         equippedWeapon.StartFiringWeapon();
+
     }
 
-    public void StopFiring()
+    void StopFiring()
     {
+        playerAnimator.SetBool(isFiringHash, false);
         playerController.isFiring = false;
-        animator.SetBool(isFiringHash, false);
         equippedWeapon.StopFiringWeapon();
     }
 
-    //input based reload
     public void OnReload(InputValue value)
     {
         playerController.isReloading = value.isPressed;
-
         StartReloading();
     }
 
-    //the action of reloading
     public void StartReloading()
     {
-        
         if (playerController.isFiring)
         {
             StopFiring();
         }
-        if (equippedWeapon.weaponStats.totalBullets <= 0) return;
+        if (equippedWeapon.weaponStats.totalBullets <= 0)
+        {
+            return;
+        }
 
-        animator.SetBool(isReloadingHash, true);
+        //refill ammo here
         equippedWeapon.StartReloading();
+        playerController.isReloading = true;
+        playerAnimator.SetBool(isReloadingHash, true);
 
         InvokeRepeating(nameof(StopReloading), 0, 0.1f);
     }
 
     public void StopReloading()
     {
-        if (animator.GetBool(isReloadingHash)) return;
+        if (playerAnimator.GetBool(isReloadingHash)) return;
 
         playerController.isReloading = false;
+        playerAnimator.SetBool(isReloadingHash, false);
         equippedWeapon.StopReloading();
-        animator.SetBool(isReloadingHash, false);
         CancelInvoke(nameof(StopReloading));
+
+        if (firingPressed)
+        {
+            StartFiring();
+        }
     }
 }

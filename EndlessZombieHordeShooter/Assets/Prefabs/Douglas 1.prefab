@@ -1760,10 +1760,10 @@ Animator:
   m_GameObject: {fileID: 6324963056675948509}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 12a6c84c4b34c2d40a6588161195483e, type: 3}
-  m_Controller: {fileID: 9100000, guid: a7a033d52b42a474ab4b57eea3a4fea6, type: 2}
+  m_Controller: {fileID: 9100000, guid: b510c425db476c14199496a3f25e1b14, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1846,7 +1846,7 @@ MonoBehaviour:
   runSpeed: 10
   jumpForce: 5
   followTransform: {fileID: 6559389169831176058}
-  aimSensitivity: 0.05
+  aimSensitivity: 0.08
 --- !u!114 &6324963056675948510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1861,6 +1861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponToSpawn: {fileID: 1900586067242068, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
   playerController: {fileID: 4895451264659278370}
+  crossHairImage: {fileID: 0}
   weaponSocketLocation: {fileID: 6559389170047990451}
   gripIKSocketLocation: {fileID: 6559389168705896697}
 --- !u!54 &3404455848931700167
