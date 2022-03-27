@@ -4,62 +4,50 @@ using UnityEngine;
 
 public enum WeaponType
 {
-    None,
-    Pistol,
-    MachineGun,
+    None, Pistol, MachineGun
 }
 
-public enum weaponFiringPattern
+public enum WeaponFiringPattern
 {
-    SemiAuto, FullAuto, ThreeShotBurst, FiveShotBurst
+    SemiAuto, FullAuto, ThreeShotBurst, FiveShotBurst, PumpAction
 }
 
 [System.Serializable]
 public struct WeaponStats
 {
     public WeaponType weaponType;
+    public WeaponFiringPattern firingPattern;
     public string weaponName;
     public float damage;
     public int bulletsInClip;
     public int clipSize;
     public float fireStartDelay;
     public float fireRate;
-    public weaponFiringPattern weaponFiringPattern;
     public float fireDistance;
     public bool repeating;
     public LayerMask weaponHitLayers;
     public int totalBullets;
+    //bool dumpAmmoOnReload = false;
 }
 
 public class WeaponComponent : MonoBehaviour
 {
     public Transform gripLocation;
-    public Transform firingEffectLocation;
-
-    protected WeaponHolder weaponHolder;
-    [SerializeField] protected ParticleSystem firingEffect;
-
-    [SerializeField]
     public WeaponStats weaponStats;
 
-    public bool isFiring = false;
-    public bool isReloading = false;
+    protected WeaponHolder weaponHolder;
+    [SerializeField]
+    protected ParticleSystem firingEffect;
+
+    public bool isFiring;
+    public bool isReloading;
+
+
     protected Camera mainCamera;
 
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         mainCamera = Camera.main;
-    }
-    private void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Initialize(WeaponHolder _weaponHolder)
@@ -72,6 +60,8 @@ public class WeaponComponent : MonoBehaviour
         isFiring = true;
         if (weaponStats.repeating)
         {
+            //fire weapon
+            CancelInvoke(nameof(FireWeapon));
             InvokeRepeating(nameof(FireWeapon), weaponStats.fireStartDelay, weaponStats.fireRate);
         }
         else
@@ -93,23 +83,23 @@ public class WeaponComponent : MonoBehaviour
     protected virtual void FireWeapon()
     {
         weaponStats.bulletsInClip--;
+        //print(weaponStats.bulletsInClip);
     }
 
-    //deal with ammo counts and maybe particle effects
     public virtual void StartReloading()
     {
         isReloading = true;
         ReloadWeapon();
     }
-
     public virtual void StopReloading()
     {
         isReloading = false;
     }
 
+    //set ammo counts here
     protected virtual void ReloadWeapon()
     {
-        //if there's a firing effect hide it here
+        //check to see if there is a firing effect and stop it
         if (firingEffect && firingEffect.isPlaying)
         {
             firingEffect.Stop();
@@ -118,8 +108,8 @@ public class WeaponComponent : MonoBehaviour
         int bulletsToReload = weaponStats.clipSize - weaponStats.totalBullets;
         if (bulletsToReload < 0)
         {
+            weaponStats.totalBullets -= (weaponStats.clipSize - weaponStats.bulletsInClip);
             weaponStats.bulletsInClip = weaponStats.clipSize;
-            weaponStats.totalBullets -= weaponStats.clipSize;
         }
         else
         {
@@ -127,4 +117,51 @@ public class WeaponComponent : MonoBehaviour
             weaponStats.totalBullets = 0;
         }
     }
+    /*
+     *   protected virtual void ReloadWeapon()
+
+  {
+
+    // Check to see if there is if there is a firing effect and stop it.
+
+    if (firingEffect && firingEffect.isPlaying)
+
+      firingEffect.Stop();
+
+
+
+    int bulletsToFillClip = stats.dumpAmmoOnReload ? stats.clipSize : stats.clipSize - stats.bulletsInClip;
+
+    int bulletsLeftAfter = stats.totalBullets - bulletsToFillClip;
+
+
+
+    if (bulletsLeftAfter >= 0)
+
+    {
+
+      if (stats.dumpAmmoOnReload)
+
+        stats.bulletsInClip = 0;
+
+      stats.bulletsInClip += bulletsToFillClip;
+
+      stats.totalBullets -= bulletsToFillClip;
+
+    }
+
+    else
+
+    {
+
+      stats.bulletsInClip += stats.totalBullets;
+
+      stats.totalBullets = 0;
+
+    }
+
+  }
+     * */
+
+
 }

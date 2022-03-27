@@ -1716,13 +1716,14 @@ GameObject:
   - component: {fileID: 751314005782300445}
   - component: {fileID: 6559389170155829902}
   - component: {fileID: 6559389170155829903}
+  - component: {fileID: 381117789858079230}
   - component: {fileID: 4895451264659278370}
   - component: {fileID: 1484938382090167215}
   - component: {fileID: 6324963056675948510}
   - component: {fileID: 3404455848931700167}
   m_Layer: 0
   m_Name: Douglas 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1760,7 +1761,7 @@ Animator:
   m_GameObject: {fileID: 6324963056675948509}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 12a6c84c4b34c2d40a6588161195483e, type: 3}
-  m_Controller: {fileID: 9100000, guid: b510c425db476c14199496a3f25e1b14, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1813,6 +1814,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &381117789858079230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6324963056675948509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f8bdb54e734ac46bfac4b0ecd98d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 250
+  maxHealth: 250
 --- !u!114 &4895451264659278370
 MonoBehaviour:
   m_ObjectHideFlags: 0
