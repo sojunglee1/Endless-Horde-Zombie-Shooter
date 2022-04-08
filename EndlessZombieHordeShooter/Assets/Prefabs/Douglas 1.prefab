@@ -1721,6 +1721,7 @@ GameObject:
   - component: {fileID: 1484938382090167215}
   - component: {fileID: 6324963056675948510}
   - component: {fileID: 3404455848931700167}
+  - component: {fileID: 2191731289806783116}
   m_Layer: 0
   m_Name: Douglas 1
   m_TagString: Player
@@ -1845,6 +1846,10 @@ MonoBehaviour:
   isJumping: 0
   isRunning: 0
   isAiming: 0
+  inInventory: 0
+  inventory: {fileID: 0}
+  uiController: {fileID: 0}
+  weaponHolder: {fileID: 0}
 --- !u!114 &1484938382090167215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1876,9 +1881,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponToSpawn: {fileID: 1900586067242068, guid: ad49a19d2c4adc94b838606a5d459f85, type: 3}
   playerController: {fileID: 4895451264659278370}
-  crossHairImage: {fileID: 0}
+  crossHairImage: {fileID: 21300000, guid: 22110a322c10ce04b94d4539dbcda1f1, type: 3}
+  equippedWeapon: {fileID: 0}
   weaponSocketLocation: {fileID: 6559389170047990451}
   gripIKSocketLocation: {fileID: 6559389168705896697}
+  startingWeaponScriptable: {fileID: 11400000, guid: a479845c92459364baaff8e6d8c52a03, type: 2}
+  weaponAmmoUI: {fileID: 0}
 --- !u!54 &3404455848931700167
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1895,6 +1903,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &2191731289806783116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6324963056675948509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06e1e07e24948f429413a16de31ae3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Items: []
 --- !u!1 &6420026171722299594
 GameObject:
   m_ObjectHideFlags: 0

@@ -1996,6 +1996,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7280153099116072985}
     m_Modifications:
+    - target: {fileID: 1121440752991997983, guid: 176664a2c5453284a93b8056769ba265, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1121440752991997983, guid: 176664a2c5453284a93b8056769ba265, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 8717932408202872160, guid: 176664a2c5453284a93b8056769ba265, type: 3}
       propertyPath: m_Name
       value: ItemSlot

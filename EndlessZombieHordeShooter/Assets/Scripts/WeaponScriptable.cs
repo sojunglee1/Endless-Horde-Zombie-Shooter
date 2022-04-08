@@ -11,11 +11,15 @@ public class WeaponScriptable : EquippableScriptable
     {
         if (equipped)
         {
+            playerController.weaponHolder.UnEquipWeapon();
             //unequip from inventory here
             //remove from controller here too
+            //playerController.weaponHolder.unEquippedItem();
         }
         else
         {
+            playerController.weaponHolder.EquipWeapon(this);
+            PlayerEvents.InvokeOnWeaponEquipped(itemPrefab.GetComponent<WeaponComponent>());
             //invoke OnWeaponEquipped from player here for inventory
             //equip weapon from weapon holder on playercontroller
         }
